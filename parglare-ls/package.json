@@ -10,16 +10,27 @@
 		"Other"
 	],
 	"activationEvents": [
-        "onCommand:parglare-ls.helloWorld"
+        "onStartupFinished"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "parglare-ls.helloWorld",
+				"command": "thisOne",
 				"title": "Hello World"
 			}
-		]
+		],
+		"languages": [{
+			"id": "pg",
+			"aliases": ["Parglare", "pg"],
+			"extensions": [".pg"],
+			"configuration": "./language-configuration.json"
+		}],
+		"grammars": [{
+				"language": "pg",
+				"scopeName": "source.pg",
+				"path": "./syntaxes/pg.tmLanguage.json"
+		}]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
