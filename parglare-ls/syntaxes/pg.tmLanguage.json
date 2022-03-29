@@ -1,25 +1,25 @@
 {
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "scopeName": "source.pg",
-  "patterns": [{ "include": "#expression" }],
+	"fileTypes": [
+    ".pg"
+  ],
+  "patterns": [
+		{ 
+			"include": "#command_name"
+		},
+		{
+			"include": "#special_characters"
+		}
+	],
   "repository": {
-    "expression": {
-      "patterns": [{ "include": "#letter" }, { "include": "#paren-expression" }]
+    "command_name": {
+      "name": "string.quoted",
+			"match": "\\w+: "
     },
-    "letter": {
-      "match": "a|b|c",
-      "name": "keyword.letter"
-    },
-    "paren-expression": {
-      "begin": "\\(",
-      "end": "\\)",
-      "beginCaptures": {
-        "0": { "name": "punctuation.paren.open" }
-      },
-      "endCaptures": {
-        "0": { "name": "punctuation.paren.close" }
-      },
-      "name": "expression.group",
-      "patterns": [{ "include": "#expression" }]
-    }
+		"special_characters": {
+			"name": "constant.character.escape",
+			"match": ";|:"
+		}
   }
 }
