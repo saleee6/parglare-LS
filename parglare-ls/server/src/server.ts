@@ -10,7 +10,9 @@ import {
 	CompletionItemKind,
 	TextDocumentPositionParams,
 	TextDocumentSyncKind,
-	InitializeResult
+	InitializeResult,
+	Location,
+	Definition
 } from 'vscode-languageserver/node';
 
 import {
@@ -43,6 +45,7 @@ connection.onInitialize((params: InitializeParams) => {
 
 	const result: InitializeResult = {
 		capabilities: {
+			definitionProvider: true,
 			textDocumentSync: TextDocumentSyncKind.Incremental,
 			completionProvider: {
 				resolveProvider: true
@@ -172,6 +175,18 @@ connection.onCompletionResolve(
 		return item;
 	}
 );
+
+connection.onDefinition((_textDocumentPosition: TextDocumentPositionParams): Definition => {
+	const commandsOfDocument = commandsOfLanguage.get(_textDocumentPosition.textDocument.uri);
+	let len = 0;
+	if (commandsOfDocument) {
+		len = commandsOfDocument[0].length;
+	}
+	return Location.create(_textDocumentPosition.textDocument.uri, {
+		start: { line: 0, character: 0 },
+		end: { line: 0, character: len }
+	});
+});
 
 documents.listen(connection);
 connection.listen();
